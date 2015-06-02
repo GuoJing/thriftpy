@@ -26,10 +26,7 @@ class TSocketBase(TTransportBase):
 
     def close(self):
         if self.handle:
-            try:
-                self.handle.shutdown(socket.SHUT_RDWR)
-            except:
-                pass
+            self.handle.shutdown(socket.SHUT_RDWR)
             self.handle.close()
             self.handle = None
 
@@ -100,7 +97,6 @@ class TSocket(TSocketBase):
             else:
                 raise
         except socket.timeout as e:
-            self.close()
             raise TTransportException(type=TTransportException.END_OF_FILE,
                                       message='TSocket read 0 bytes, timeout')
         if len(buff) == 0:
