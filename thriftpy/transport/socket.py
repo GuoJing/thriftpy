@@ -86,9 +86,7 @@ class TSocket(TSocketBase):
         try:
             buff = self.handle.recv(sz)
         except socket.error as e:
-            if (e.args[0] == errno.ECONNRESET and
-                    (sys.platform == 'darwin' or
-                     sys.platform.startswith('freebsd'))):
+            if e.args[0] == errno.ECONNRESET:
                 # freebsd and Mach don't follow POSIX semantic of recv
                 # and fail with ECONNRESET if peer performed shutdown.
                 # See corresponding comment and code in TSocket::read()
