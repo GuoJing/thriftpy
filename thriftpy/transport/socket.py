@@ -102,6 +102,9 @@ class TSocket(TSocketBase):
         except socket.timeout as e:
             raise TTransportException(type=TTransportException.END_OF_FILE,
                                       message='TSocket read 0 bytes, timeout')
+            buff = ''
+        except:
+            buff = ''
         if len(buff) == 0:
             raise TTransportException(type=TTransportException.END_OF_FILE,
                                       message='TSocket read 0 bytes')
