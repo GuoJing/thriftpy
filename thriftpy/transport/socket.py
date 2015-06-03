@@ -26,7 +26,10 @@ class TSocketBase(TTransportBase):
 
     def close(self):
         if self.handle:
-            self.handle.shutdown(socket.SHUT_RDWR)
+            try:
+                self.handle.shutdown(socket.SHUT_RDWR)
+            except:
+                pass
             self.handle.close()
             self.handle = None
 
