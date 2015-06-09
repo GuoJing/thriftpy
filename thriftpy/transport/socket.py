@@ -89,16 +89,18 @@ class TSocket(TSocketBase):
         try:
             buff = self.handle.recv(sz)
         except socket.error as e:
-            if e.args[0] == errno.ECONNRESET:
+            self.close()
+            buff = ''
+            #if e.args[0] == errno.ECONNRESET:
                 # freebsd and Mach don't follow POSIX semantic of recv
                 # and fail with ECONNRESET if peer performed shutdown.
                 # See corresponding comment and code in TSocket::read()
                 # in lib/cpp/src/transport/TSocket.cpp.
-                self.close()
+            #    self.close()
                 # Trigger the check to raise the END_OF_FILE exception below.
-                buff = ''
-            else:
-                raise
+            #    buff = ''
+            #else:
+            #    raise
         except socket.timeout as e:
             raise TTransportException(type=TTransportException.END_OF_FILE,
                                       message='TSocket read 0 bytes, timeout')
